@@ -149,8 +149,8 @@ posixspawn_file_actions_adddup2(VALUE key, VALUE val, posix_spawn_file_actions_t
 	if (fd < 0)
 		return ST_CONTINUE;
 
-	fcntl(fd, F_SETFD, fcntl(fd, F_GETFD) & ~FD_CLOEXEC);
-	fcntl(newfd, F_SETFD, fcntl(newfd, F_GETFD) & ~FD_CLOEXEC);
+	fcntl(fd, F_SETFD, fcntl(fd, F_GETFD) & ~FD_CLOEXEC & ~O_NONBLOCK);
+	fcntl(newfd, F_SETFD, fcntl(newfd, F_GETFD) & ~FD_CLOEXEC & ~O_NONBLOCK);
 	posix_spawn_file_actions_adddup2(fops, fd, newfd);
 	return ST_DELETE;
 }
